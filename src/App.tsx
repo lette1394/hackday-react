@@ -2,6 +2,7 @@ import * as React from "react";
 import * as io from "socket.io-client";
 import { styled, Styled } from "theme";
 import { Button } from "antd";
+import { InputModalWithButton } from "./elements/InputModalWithButton";
 
 interface Props extends Styled {}
 interface State {
@@ -48,6 +49,7 @@ class App extends React.Component<Props, State> {
         <Button type="primary" onClick={() => this.notice()}>
           notice
         </Button>
+        <InputModalWithButton />
         <div>from server : {this.state.msg}</div>
         <span style={{ fontSize: "10rem" }}>안녕하세요 한글테스트 </span>
       </div>
