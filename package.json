@@ -1,0 +1,41 @@
+{
+  "name": "hackday-react",
+  "version": "1.0.0",
+  "description": "react client",
+  "main": "webpack.config.dev.js",
+  "scripts": {
+    "start": "webpack-dev-server --mode development --hot --colors --watch --inline --config ./webpack.config.dev.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lette1394/hackday-react.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lette1394/hackday-react/issues"
+  },
+  "homepage": "https://github.com/lette1394/hackday-react#readme",
+  "devDependencies": {
+    "@types/react": "^16.7.7",
+    "@types/react-dom": "^16.0.11",
+    "antd": "^3.10.9",
+    "axios": "^0.18.0",
+    "clean-webpack-plugin": "^1.0.0",
+    "css-loader": "^1.0.1",
+    "dotenv-webpack": "^1.5.7",
+    "html-webpack-plugin": "^3.2.0",
+    "less": "^3.8.1",
+    "less-loader": "^4.1.0",
+    "moment": "^2.22.2",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "styled-components": "^4.1.1",
+    "ts-loader": "^5.3.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.6",
+    "webpack": "^4.26.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10"
+  }
+}
