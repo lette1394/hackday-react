@@ -33,12 +33,20 @@ class App extends React.Component<Props, State> {
     this.setState({ i: this.state.i + 1 });
   };
 
+  notice = () => {
+    this.socket.emit("NOTICE", `${this.state.i + 100}`);
+    this.setState({ i: this.state.i + 1 });
+  };
+
   render() {
     return (
       <div className={this.props.className}>
         sending message... <br />
         <Button type="primary" onClick={() => this.click()}>
           send
+        </Button>
+        <Button type="primary" onClick={() => this.notice()}>
+          notice
         </Button>
         <div>from server : {this.state.msg}</div>
         <span style={{ fontSize: "10rem" }}>안녕하세요 한글테스트 </span>
