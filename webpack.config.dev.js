@@ -52,7 +52,7 @@ module.exports = {
             sourceMap: true,
             javascriptEnabled: true,
             modifyVars: {
-              "primary-color": '#722ed1'
+              "primary-color": '#7cb305'
             }
           }
         }]
