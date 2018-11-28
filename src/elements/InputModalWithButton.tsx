@@ -4,6 +4,7 @@ import { WrappedFormUtils } from "antd/lib/form/Form";
 import styled, { Styled } from "../theme";
 import { NotificationImportance, NotificationTarget } from "interface";
 import { CheckboxWithAll } from "./CheckboxWithAll";
+import { PostNotificationData } from "src/interface/Notification";
 const FormItem = Form.Item;
 
 interface FormProps {
@@ -41,7 +42,7 @@ const CreateForm = Form.create()(
               })(<Input />)}
             </FormItem>
             <FormItem label="내용">
-              {getFieldDecorator("description")(<Input type="textarea" />)}
+              {getFieldDecorator("message")(<Input type="textarea" />)}
             </FormItem>
             <FormItem className="radio-">
               {getFieldDecorator("modifier", {
@@ -70,9 +71,8 @@ const CreateForm = Form.create()(
   }
 );
 
-interface Notification {}
 interface Props extends Styled {
-  onSubmit: (value: Notification) => void;
+  onSubmit: (value: PostNotificationData) => void;
 }
 
 class InputModalWithButton extends React.Component<Props> {
@@ -99,7 +99,7 @@ class InputModalWithButton extends React.Component<Props> {
 
       console.log("Received values of form: ", values);
       form.resetFields();
-
+      this.props.onSubmit(values);
       this.setState({ visible: false });
     });
   };

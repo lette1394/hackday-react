@@ -1,56 +1,63 @@
 import * as React from "react";
 import * as io from "socket.io-client";
 import { styled, Styled } from "theme";
-import { Button } from "antd";
+import { Button, notification as noti } from "antd";
 import { InputModalWithButton } from "./elements/InputModalWithButton";
+import { Notification } from "interface";
+import { PostNotificationData } from "./interface/Notification";
 
 interface Props extends Styled {}
-interface State {
-  msg: string;
-  i: number;
-}
-class App extends React.Component<Props, State> {
+class App extends React.Component<Props> {
   socket: SocketIOClient.Socket;
 
   constructor(props: Props) {
     super(props);
-    this.state = {
-      msg: "",
-      i: 0
-    };
   }
 
   componentDidMount() {
     const SERVER_PORT = 9000;
     this.socket = io(`http://localhost:${SERVER_PORT}`);
-    this.socket.on("reply", (msg) => {
+    this.socket.on("NOTICE", (msg) => {
       this.setState({ msg });
       console.log("msg");
     });
+
+    this.registerSocketHandler(this.socket);
   }
 
-  click = () => {
-    this.socket.emit("message", `hello${this.state.i}`);
-    this.setState({ i: this.state.i + 1 });
+  registerSocketHandler = (socket: SocketIOClient.Socket) => {
+    socket.on("NOTIFICATION", (notification: Notification) => {
+      noti.open({
+        message: notification.title,
+        description: notification.message
+      });
+    });
   };
 
   notice = () => {
-    this.socket.emit("NOTICE", `${this.state.i + 100}`);
-    this.setState({ i: this.state.i + 1 });
+    const testData: PostNotificationData = {
+      title: "test Data",
+      message:
+        "이건 메시지입니다 이건 메시지입니다. 이건 메시지입니다 이건 메시지입니다. 이건 메시지입니다 이건 메시지입니다. 이건 메시지입니다 이건 메시지입니다. ",
+      target: 1000,
+      importance: 100
+    };
+
+    this.socket.emit("NOTIFICATION", testData);
+  };
+
+  onSubmit = (value: PostNotificationData) => {
+    this.socket.emit("NOTIFICATION", value);
   };
 
   render() {
     return (
       <div className={this.props.className}>
-        sending message... <br />
-        <Button type="primary" onClick={() => this.click()}>
-          send
-        </Button>
+        테스트 <br />
         <Button type="primary" onClick={() => this.notice()}>
           notice
         </Button>
-        <InputModalWithButton />
-        <div>from server : {this.state.msg}</div>
+        <InputModalWithButton onSubmit={this.onSubmit} />
         <span style={{ fontSize: "10rem" }}>안녕하세요 한글테스트 </span>
       </div>
     );

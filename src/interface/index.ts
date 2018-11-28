@@ -1,2 +1,6 @@
-export { NotificationImportance, NotificationTarget } from "./Notification";
+export {
+  Notification,
+  NotificationImportance,
+  NotificationTarget
+} from "./Notification";
 export { UserGrade } from "./User";
