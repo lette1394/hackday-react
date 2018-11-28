@@ -96,7 +96,7 @@ module.exports = {
   devServer: {
     contentBase: path.resolve("."),
     compress: true,
-    port: 5000,
+    port: 3000,
     watchOptions: {
       ignored: /node_modules/
     },
