@@ -6,14 +6,14 @@ import {
   NotificationImportance
 } from "./interface";
 import uuid = require("uuid");
-import { styled } from "./theme";
+import { styled, Styled } from "./theme";
 
 interface NoticePaneContext {
   grade: UserGrade;
   importance: NotificationImportance;
 }
 
-interface Props {
+interface Props extends Styled {
   socket: any;
 }
 class NoticePane extends React.Component<Props, any> {
@@ -32,18 +32,34 @@ class NoticePane extends React.Component<Props, any> {
   };
 
   render() {
-    const buttonList = [
-      {
-        grade: UserGrade.BRONZE,
-        importance: NotificationImportance.LOW,
-        name: "bronze-low"
+    const grades = Object.keys(UserGrade).filter(
+      (k) => typeof UserGrade[k as any] === "string"
+    );
+    const importances = Object.keys(NotificationImportance).filter(
+      (k) => typeof NotificationImportance[k as any] === "string"
+    );
+    let buttonList = [];
+
+    for (let grade of grades) {
+      for (let importance of importances) {
+        buttonList.push({
+          grade,
+          importance,
+          name: `${grade}-${importance}`
+        });
       }
-    ];
-    return buttonList.map((context) => (
-      <Button type="primary" onClick={() => this.notice(context)}>
-        {context.name}
-      </Button>
-    ));
+    }
+    console.log(buttonList);
+
+    return (
+      <div className={this.props.className}>
+        {buttonList.map((context, idx) => (
+          <Button key={idx} type="primary" onClick={() => this.notice(context)}>
+            {context.name}
+          </Button>
+        ))}
+      </div>
+    );
   }
 }
 
@@ -51,6 +67,8 @@ const styledNoticePane = styled(NoticePane)`
   flex: 0 1 auto;
 
   min-width: 400px;
+
+  padding: 30px;
 `;
 
 export { styledNoticePane as NoticePane };
