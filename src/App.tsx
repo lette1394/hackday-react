@@ -10,6 +10,8 @@ import { Register } from "./Register";
 import { Title } from "theme/component";
 import { Login } from "./Login";
 import { User } from "./interface/User";
+import { Status } from "./Status";
+import { NoticePane } from "./NoticePane";
 
 interface Props extends Styled {}
 interface State {
@@ -30,22 +32,22 @@ class App extends React.Component<Props, State> {
     };
   }
 
-  initConnection() {
+  initConnection = (user: User) => {
     const SERVER_PORT = 8080; // nginx
     const NAMESPACE = "notification";
     const URL = `http://localhost:${SERVER_PORT}/${NAMESPACE}`;
     const socket = io(URL);
 
     this.socket = socket;
-    this.initSocket(socket);
+    this.initSocket(user);
     this.registerSocketHandler(socket);
-  }
+  };
 
-  initSocket = (socket: SocketIOClient.Socket) => {
+  initSocket = (user: User) => {
+    const { grade } = user;
     const JOIN_ROOM = "join room";
-    const grade = "SILVER";
 
-    socket.emit(JOIN_ROOM, grade);
+    this.socket.emit(JOIN_ROOM, grade);
   };
 
   registerSocketHandler = (socket: SocketIOClient.Socket) => {
@@ -57,36 +59,23 @@ class App extends React.Component<Props, State> {
     });
   };
 
-  notice = () => {
-    const testData: NotificationInput = {
-      key: uuid(),
-      createAt: new Date(),
-      title: "test Data",
-      message:
-        "이건 메시지입니다 이건 메시지입니다. 이건 메시지입니다 이건 메시지입니다. 이건 메시지입니다 이건 메시지입니다. 이건 메시지입니다 이건 메시지입니다. ",
-      userGrades: [UserGrade.SILVER],
-      importance: 100
-    };
-
-    this.socket.emit("notification", testData);
-  };
-
   onSubmit = (value: NotificationInput) => {
     this.socket.emit("notification", value);
   };
 
   onLogin = (user: User) => {
     this.setState({ user });
+    this.initConnection(user);
+
     console.log(user);
   };
 
   render() {
     return (
       <div className={this.props.className}>
-        
-        <Button type="primary" onClick={this.notice}>
-          notice
-        </Button>
+        <Status user={this.state.user} />
+        <NoticePane socket={this.socket} />
+
         <InputModalWithButton onSubmit={this.onSubmit} />
         <Login onLogin={this.onLogin} />
         <Register />
@@ -96,11 +85,9 @@ class App extends React.Component<Props, State> {
 }
 
 const styledApp = styled(App)`
-  margin: 10rem;
+  display: flex;
 
-  #status {
-    
-  }
+  margin: 10rem;
 `;
 
 export { styledApp as App };

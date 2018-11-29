@@ -2,13 +2,14 @@ import * as React from "react";
 import { Title } from "theme/component";
 import styled from "./theme";
 
-const Status = (props) => {
+const Status = ({ user, className }) => {
   return (
-    <div className={props.className}>
+    <div className={className}>
       <Title>현재 연결된 계정 정보</Title>
-      {Object.keys(this.state.user).map((key) => (
+
+      {Object.keys(user).map((key) => (
         <div>
-          {key} : {this.state.user[key]}
+          {key} : {user[key]}
         </div>
       ))}
     </div>
@@ -16,12 +17,11 @@ const Status = (props) => {
 };
 
 const styledStatus = styled(Status)`
+  flex: 0 1 auto;
+
   max-width: 400px;
   border: 1px solid #e8e8e8;
   border-radius: 20px;
-  position: absolute;
-  left: 10rem;
-  top: 10rem;
 `;
 
 export { styledStatus as Status };
