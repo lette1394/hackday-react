@@ -42,7 +42,7 @@ class NoticePane extends React.Component<Props, any> {
     this.props.getSocket().emit(EVENT, testData);
   };
 
-  render() {
+  getButtonContextList = () => {
     const getListOfEnum = (e) =>
       Object.keys(e).filter((k) => typeof e[k as any] === "string");
 
@@ -58,16 +58,30 @@ class NoticePane extends React.Component<Props, any> {
           name: `${grade}-${importance}`
         });
       }
+      buttonList.push("split");
     }
     console.log(buttonList);
 
+    return buttonList;
+  };
+
+  render() {
     return (
       <div className={this.props.className}>
-        {buttonList.map((context, idx) => (
-          <Button key={idx} type="primary" onClick={() => this.notice(context)}>
-            {context.name}
-          </Button>
-        ))}
+        {this.getButtonContextList().map((context, idx) => {
+          if (context === "split") {
+            return <div />;
+          }
+          return (
+            <Button
+              key={idx}
+              type="default"
+              onClick={() => this.notice(context)}
+            >
+              {context.name}
+            </Button>
+          );
+        })}
       </div>
     );
   }

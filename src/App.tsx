@@ -1,13 +1,11 @@
 import * as React from "react";
 import * as io from "socket.io-client";
-import * as uuid from "uuid";
 
 import { styled, Styled } from "theme";
-import { Button, notification as noti } from "antd";
+import { notification as noti } from "antd";
 import { InputModalWithButton } from "./elements/InputModalWithButton";
-import { Notification, UserGrade, NotificationInput } from "interface";
+import { Notification,  NotificationInput } from "interface";
 import { Register } from "./Register";
-import { Title } from "theme/component";
 import { Login } from "./Login";
 import { User } from "./interface/User";
 import { Status } from "./Status";
