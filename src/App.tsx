@@ -4,12 +4,17 @@ import * as io from "socket.io-client";
 import { styled, Styled } from "theme";
 import { notification as noti } from "antd";
 import { InputModalWithButton } from "./elements/InputModalWithButton";
-import { Notification,  NotificationInput } from "interface";
+import {
+  Notification,
+  NotificationInput,
+  NotificationImportance
+} from "interface";
 import { Register } from "./Register";
 import { Login } from "./Login";
 import { User } from "./interface/User";
 import { Status } from "./Status";
 import { NoticePane } from "./NoticePane";
+import * as moment from "moment";
 
 interface Props extends Styled {}
 interface State {
@@ -59,10 +64,19 @@ class App extends React.Component<Props, State> {
   };
 
   registerSocketHandler = (socket: SocketIOClient.Socket) => {
+    const typeResolver = new Map();
+    typeResolver.set(NotificationImportance.LOW, "success");
+    typeResolver.set(NotificationImportance.MEDIUM, "info");
+    typeResolver.set(NotificationImportance.HIGH, "warning");
+    typeResolver.set(NotificationImportance.URGENT, "error");
+
     socket.on("notification", (notification: Notification) => {
       noti.open({
         message: notification.title,
-        description: notification.message
+        description: `${notification.message} - ${moment(notification.createAt)
+          .locale("ko")
+          .fromNow()}`,
+        type: typeResolver.get(notification.importance)
       });
     });
   };
