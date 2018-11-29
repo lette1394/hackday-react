@@ -95,7 +95,7 @@ const styledRegister = styled(Register)`
   border-radius: 20px;
   position: absolute;
   right: 10rem;
-  top: 10rem;
+  bottom: 10rem;
 
   max-width: 400px;
   float: right;
