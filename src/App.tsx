@@ -1,10 +1,11 @@
 import * as React from "react";
 import * as io from "socket.io-client";
+import * as uuid from "uuid";
+
 import { styled, Styled } from "theme";
 import { Button, notification as noti } from "antd";
 import { InputModalWithButton } from "./elements/InputModalWithButton";
-import { Notification } from "interface";
-import { PostNotificationData } from "./interface/Notification";
+import { Notification, UserGrade, NotificationInput } from "interface";
 
 interface Props extends Styled {}
 class App extends React.Component<Props> {
@@ -16,17 +17,24 @@ class App extends React.Component<Props> {
 
   componentDidMount() {
     const SERVER_PORT = 9000;
-    this.socket = io(`http://localhost:${SERVER_PORT}`);
-    this.socket.on("NOTICE", (msg) => {
-      this.setState({ msg });
-      console.log("msg");
-    });
+    const NAMESPACE = "notification";
+    const URL = `http://localhost:${SERVER_PORT}/${NAMESPACE}`;
+    const socket = io(URL);
 
-    this.registerSocketHandler(this.socket);
+    this.socket = socket;
+    this.initSocket(socket);
+    this.registerSocketHandler(socket);
   }
 
+  initSocket = (socket: SocketIOClient.Socket) => {
+    const JOIN_ROOM = "join room";
+    const grade = "SILVER";
+
+    socket.emit(JOIN_ROOM, grade);
+  };
+
   registerSocketHandler = (socket: SocketIOClient.Socket) => {
-    socket.on("NOTIFICATION", (notification: Notification) => {
+    socket.on("notification", (notification: Notification) => {
       noti.open({
         message: notification.title,
         description: notification.message
@@ -35,19 +43,21 @@ class App extends React.Component<Props> {
   };
 
   notice = () => {
-    const testData: PostNotificationData = {
+    const testData: NotificationInput = {
+      key: uuid(),
+      createAt: new Date(),
       title: "test Data",
       message:
         "이건 메시지입니다 이건 메시지입니다. 이건 메시지입니다 이건 메시지입니다. 이건 메시지입니다 이건 메시지입니다. 이건 메시지입니다 이건 메시지입니다. ",
-      target: 1000,
+      userGrades: [UserGrade.SILVER],
       importance: 100
     };
 
-    this.socket.emit("NOTIFICATION", testData);
+    this.socket.emit("notification", testData);
   };
 
-  onSubmit = (value: PostNotificationData) => {
-    this.socket.emit("NOTIFICATION", value);
+  onSubmit = (value: NotificationInput) => {
+    this.socket.emit("notification", value);
   };
 
   render() {

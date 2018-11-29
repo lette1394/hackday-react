@@ -1,14 +1,15 @@
-export interface PostNotificationData {
+import { UserGrade } from ".";
+
+export interface NotificationInput {
+  key: string;
   title: string;
   message: string;
   importance: NotificationImportance;
-  target: NotificationTarget;
-}
-
-export interface Notification extends PostNotificationData {
-  key: string;
+  userGrades: UserGrade[];
   createAt: Date;
 }
+
+export interface Notification extends NotificationInput {}
 
 export enum NotificationImportance {
   LOW = 100,
@@ -21,6 +22,5 @@ export enum NotificationTarget {
   BRONZE = 100,
   SILVER = 200,
   GOLD = 300,
-  PLATINUM = 400,
-  ALL = 1000
+  PLATINUM = 400
 }

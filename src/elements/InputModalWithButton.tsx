@@ -4,7 +4,7 @@ import { WrappedFormUtils } from "antd/lib/form/Form";
 import styled, { Styled } from "../theme";
 import { NotificationImportance, NotificationTarget } from "interface";
 import { CheckboxWithAll } from "./CheckboxWithAll";
-import { PostNotificationData } from "src/interface/Notification";
+import { NotificationInput } from "src/interface/Notification";
 const FormItem = Form.Item;
 
 interface FormProps {
@@ -61,7 +61,7 @@ const CreateForm = Form.create()(
             </FormItem>
             <FormItem className="radio-">
               {getFieldDecorator("target", {
-                initialValue: NotificationTarget.ALL
+                initialValue: [NotificationTarget.BRONZE]
               })(<CheckboxWithAll plainOptions={["a", "b"]} />)}
             </FormItem>
           </Form>
@@ -72,7 +72,7 @@ const CreateForm = Form.create()(
 );
 
 interface Props extends Styled {
-  onSubmit: (value: PostNotificationData) => void;
+  onSubmit: (value: NotificationInput) => void;
 }
 
 class InputModalWithButton extends React.Component<Props> {
