@@ -1,15 +1,22 @@
 import { UserGrade } from ".";
 
-export interface NotificationInput {
+export interface Notification {
   key: string;
   title: string;
   message: string;
   importance: NotificationImportance;
   grade: UserGrade;
-  createAt: Date;
+  createAt: number;
 }
 
-export interface Notification extends NotificationInput {}
+enum NotificationStatus {
+  READ = "READ",
+  UNREAD = "UNREAD"
+}
+
+export interface NotificationHistory extends Notification {
+  status: NotificationStatus;
+}
 
 export enum NotificationImportance {
   LOW = "LOW",

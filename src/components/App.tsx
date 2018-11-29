@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as io from "socket.io-client";
+import axios from "axios";
 
 import { styled, Styled } from "theme";
 import { notification as noti } from "antd";
@@ -7,16 +8,19 @@ import { InputModalWithButton } from "elements";
 import * as moment from "moment";
 import {
   Notification,
-  NotificationInput,
   NotificationImportance,
-  User
+  User,
+  NotificationHistory
 } from "interface";
 import { Register, Login, Status, NoticePane } from "components";
+import { NotiHistory } from "./NotiHistory";
+import { SERVER_URL } from "src/myconstant";
 
 interface Props extends Styled {}
 interface State {
   user: User;
   isLoaded: boolean;
+  history: NotificationHistory[];
 }
 class App extends React.Component<Props, State> {
   socket: SocketIOClient.Socket;
@@ -30,7 +34,8 @@ class App extends React.Component<Props, State> {
         email: "",
         nickname: "",
         grade: ""
-      }
+      },
+      history: []
     };
   }
 
@@ -81,11 +86,13 @@ class App extends React.Component<Props, State> {
     });
   };
 
-  onSubmit = (value: NotificationInput) => {
+  onSubmit = (value: Notification) => {
     this.socket.emit("notification", value);
   };
 
   onLogin = (user: User) => {
+    this.fetch(user);
+
     if (this.state.isLoaded) {
       this.leaveRoom(this.state.user);
       this.joinRoom(user);
@@ -97,15 +104,30 @@ class App extends React.Component<Props, State> {
     this.initConnection().then(() => this.joinRoom(user));
   };
 
+  fetch = (user: User) => {
+    if (user.email === "") return;
+
+    axios
+      .get(`${SERVER_URL}/notifications`, {
+        params: {
+          email: user.email
+        }
+      })
+      .then(({ data }) => {
+        this.setState({ history: data.reverse() });
+        console.log(data);
+      });
+  };
+
   render() {
     return (
       <div className={this.props.className}>
         <Status user={this.state.user} />
         <NoticePane getSocket={() => this.socket} />
-
         <InputModalWithButton onSubmit={this.onSubmit} />
         <Login onLogin={this.onLogin} />
         <Register />
+        <NotiHistory history={this.state.history} />
       </div>
     );
   }

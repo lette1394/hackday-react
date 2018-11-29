@@ -3,10 +3,9 @@ import { Form, Icon, Input, Button, message } from "antd";
 import { styled, Styled } from "theme";
 import axios from "axios";
 import { Title } from "theme/component";
+import { SERVER_URL } from "myconstant";
 
 const FormItem = Form.Item;
-
-const SERVER_URL = "http://localhost:8999";
 
 class Login extends React.Component<any, any> {
   handleSubmit = (e) => {

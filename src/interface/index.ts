@@ -1,7 +1,7 @@
 export {
   Notification,
-  NotificationInput,
   NotificationImportance,
+  NotificationHistory
 } from "./Notification";
 
 export { UserGrade, User } from "./User";

@@ -2,7 +2,7 @@ import { Button, Modal, Form, Input, Radio } from "antd";
 import * as React from "react";
 import { WrappedFormUtils } from "antd/lib/form/Form";
 import styled, { Styled } from "theme";
-import { NotificationImportance, NotificationInput } from "interface";
+import { NotificationImportance, Notification } from "interface";
 import { CheckboxWithAll } from "elements";
 const FormItem = Form.Item;
 
@@ -73,7 +73,7 @@ const CreateForm = Form.create()(
 );
 
 interface Props extends Styled {
-  onSubmit: (value: NotificationInput) => void;
+  onSubmit: (value: Notification) => void;
 }
 
 class InputModalWithButton extends React.Component<Props> {

@@ -96,7 +96,7 @@ const styledRegister = styled(Register)`
   border: 1px solid #e8e8e8;
   border-radius: 20px;
 
-  min-width: 400px;
+  min-width: 400px; 
   float: right;
   padding: 50px !important;
 

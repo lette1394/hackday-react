@@ -26,7 +26,7 @@ const styledStatus = styled(Status)`
   border-radius: 20px;
 
   padding: 30px;
-  /* margin: 20px; */
+  margin: 20px 0;
 
   .item {
     font-size: 20px;

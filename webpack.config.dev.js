@@ -19,7 +19,7 @@ module.exports = {
       components: path.resolve(__dirname, "src/components/"),
       elements: path.resolve(__dirname, "src/elements/"),
       theme: path.resolve(__dirname, "src/theme/"),
-      constants: path.resolve(__dirname, "src/constants/"),
+      myconstant: path.resolve(__dirname, "src/myconstant/"),
       state: path.resolve(__dirname, "src/state/"),
       interface: path.resolve(__dirname, "src/interface/"),
       helper: path.resolve(__dirname, "src/helper/")

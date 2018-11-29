@@ -1,12 +1,9 @@
 import * as React from "react";
 import { Button, message } from "antd";
-import {
-  NotificationInput,
-  UserGrade,
-  NotificationImportance
-} from "interface";
+import { UserGrade, NotificationImportance, Notification } from "interface";
 import * as uuid from "uuid";
 import { styled, Styled } from "theme";
+import { Title } from "theme/component";
 
 interface NoticePaneContext {
   grade: UserGrade;
@@ -28,14 +25,15 @@ class NoticePane extends React.Component<Props, any> {
     }
 
     const { grade, importance } = context;
-    const testData: NotificationInput = {
+    const testData: Notification = {
       key: uuid(),
-      createAt: new Date(),
+      createAt: Date.now(),
       title: `${grade} 대상 공지`,
       message: `${grade}에게 발송되는 공지입니다.`,
       grade,
-      importance 
+      importance
     };
+    console.log(testData.createAt);
 
     const EVENT = "notification";
     this.props.getSocket().emit(EVENT, testData);
@@ -66,6 +64,7 @@ class NoticePane extends React.Component<Props, any> {
   render() {
     return (
       <div className={this.props.className}>
+        <Title>공지 프리셋</Title>
         {this.getButtonContextList().map((context, idx) => {
           if (context === "split") {
             return <div key={idx} />;
@@ -88,9 +87,13 @@ class NoticePane extends React.Component<Props, any> {
 const styledNoticePane = styled(NoticePane)`
   flex: 0 1 auto;
 
+  border: 1px solid #e8e8e8;
+  border-radius: 20px;
+
   min-width: 400px;
 
   padding: 30px;
+  margin: 20px 0;
 `;
 
 export { styledNoticePane as NoticePane };
