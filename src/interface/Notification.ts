@@ -15,6 +15,7 @@ enum NotificationStatus {
 }
 
 export interface NotificationHistory extends Notification {
+  id: number;
   status: NotificationStatus;
 }
 

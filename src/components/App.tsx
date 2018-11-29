@@ -119,6 +119,16 @@ class App extends React.Component<Props, State> {
       });
   };
 
+  dismiss = (id: number) => {
+    const list = this.state.history.filter((val) => val.id !== id);
+    this.setState({ history: list });
+
+    axios.put(`${SERVER_URL}/notifications`, {
+      id,
+      read: true
+    });
+  };
+
   render() {
     return (
       <div className={this.props.className}>
@@ -127,7 +137,7 @@ class App extends React.Component<Props, State> {
         <InputModalWithButton onSubmit={this.onSubmit} />
         <Login onLogin={this.onLogin} />
         <Register />
-        <NotiHistory history={this.state.history} />
+        <NotiHistory history={this.state.history} dismiss={this.dismiss} />
       </div>
     );
   }
