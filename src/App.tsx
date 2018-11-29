@@ -6,6 +6,7 @@ import { styled, Styled } from "theme";
 import { Button, notification as noti } from "antd";
 import { InputModalWithButton } from "./elements/InputModalWithButton";
 import { Notification, UserGrade, NotificationInput } from "interface";
+import { Register } from "./Register";
 
 interface Props extends Styled {}
 class App extends React.Component<Props> {
@@ -16,7 +17,7 @@ class App extends React.Component<Props> {
   }
 
   componentDidMount() {
-    const SERVER_PORT = 9000;
+    const SERVER_PORT = 8080; // nginx
     const NAMESPACE = "notification";
     const URL = `http://localhost:${SERVER_PORT}/${NAMESPACE}`;
     const socket = io(URL);
@@ -63,12 +64,13 @@ class App extends React.Component<Props> {
   render() {
     return (
       <div className={this.props.className}>
-        테스트 <br />
+        현재 연결된 계정 정보 : <br />
         <Button type="primary" onClick={() => this.notice()}>
           notice
         </Button>
         <InputModalWithButton onSubmit={this.onSubmit} />
-        <span style={{ fontSize: "10rem" }}>안녕하세요 한글테스트 </span>
+        
+        <Register />
       </div>
     );
   }

@@ -54,7 +54,9 @@ const CreateForm = Form.create()(
                       (key) => !isNaN(Number(NotificationImportance[key]))
                     )
                     .map((key) => (
-                      <Radio value={`${key}`}>{key}</Radio>
+                      <Radio key={key} value={`${key}`}>
+                        {key}
+                      </Radio>
                     ))}
                 </Radio.Group>
               )}
@@ -110,7 +112,7 @@ class InputModalWithButton extends React.Component<Props> {
 
   render() {
     return (
-      <div>
+      <div className={this.props.className}>
         <Button type="primary" onClick={this.showModal}>
           새로운 공지
         </Button>
