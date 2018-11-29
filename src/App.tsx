@@ -65,18 +65,21 @@ class App extends React.Component<Props, State> {
 
   registerSocketHandler = (socket: SocketIOClient.Socket) => {
     const typeResolver = new Map();
-    typeResolver.set(NotificationImportance.LOW, "success");
-    typeResolver.set(NotificationImportance.MEDIUM, "info");
-    typeResolver.set(NotificationImportance.HIGH, "warning");
-    typeResolver.set(NotificationImportance.URGENT, "error");
+    typeResolver.set("100", "success");
+    typeResolver.set("200", "info");
+    typeResolver.set("300", "warning");
+    typeResolver.set("400", "error");
 
     socket.on("notification", (notification: Notification) => {
+      const { key, title, importance, message, createAt } = notification;
+
       noti.open({
-        message: notification.title,
-        description: `${notification.message} - ${moment(notification.createAt)
+        key,
+        message: title,
+        description: `${message} - ${moment(createAt)
           .locale("ko")
           .fromNow()}`,
-        type: typeResolver.get(notification.importance)
+        type: typeResolver.get(importance)
       });
     });
   };

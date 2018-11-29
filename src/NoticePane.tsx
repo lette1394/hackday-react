@@ -26,17 +26,15 @@ class NoticePane extends React.Component<Props, any> {
       message.error("먼저 로그인 해주세요.");
       return;
     }
-
+    const { grade, importance } = context;
     const testData: NotificationInput = {
       key: uuid(),
       createAt: new Date(),
-      title: `${context.grade} 대상 공지`,
-      message: `${context.grade}에게 발송되는 공지입니다. 공지내용123 공지공지`,
-      userGrades: [context.grade],
-      importance: context.importance
+      title: `${grade} 대상 공지`,
+      message: `${grade}에게 발송되는 공지입니다.`,
+      userGrades: [grade],
+      importance
     };
-
-    console.log(testData);
 
     const EVENT = "notification";
     this.props.getSocket().emit(EVENT, testData);
@@ -60,7 +58,6 @@ class NoticePane extends React.Component<Props, any> {
       }
       buttonList.push("split");
     }
-    console.log(buttonList);
 
     return buttonList;
   };
@@ -70,7 +67,7 @@ class NoticePane extends React.Component<Props, any> {
       <div className={this.props.className}>
         {this.getButtonContextList().map((context, idx) => {
           if (context === "split") {
-            return <div />;
+            return <div key={idx} />;
           }
           return (
             <Button

@@ -2,7 +2,7 @@ import { Button, Modal, Form, Input, Radio } from "antd";
 import * as React from "react";
 import { WrappedFormUtils } from "antd/lib/form/Form";
 import styled, { Styled } from "../theme";
-import { NotificationImportance, NotificationTarget } from "interface";
+import { NotificationImportance } from "interface";
 import { CheckboxWithAll } from "./CheckboxWithAll";
 import { NotificationInput } from "src/interface/Notification";
 const FormItem = Form.Item;
@@ -63,7 +63,7 @@ const CreateForm = Form.create()(
             </FormItem>
             <FormItem className="radio-">
               {getFieldDecorator("target", {
-                initialValue: [NotificationTarget.BRONZE]
+                initialValue: []
               })(<CheckboxWithAll plainOptions={["a", "b"]} />)}
             </FormItem>
           </Form>
