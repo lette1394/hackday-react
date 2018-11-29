@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button } from "antd";
+import { Button, message } from "antd";
 import {
   NotificationInput,
   UserGrade,
@@ -14,30 +14,40 @@ interface NoticePaneContext {
 }
 
 interface Props extends Styled {
-  socket: any;
+  getSocket: Function;
 }
 class NoticePane extends React.Component<Props, any> {
-  notice = (context: NoticePaneContext) => () => {
+  constructor(props) {
+    super(props);
+  }
+
+  notice = (context: NoticePaneContext) => {
+    if (!this.props.getSocket()) {
+      message.error("먼저 로그인 해주세요.");
+      return;
+    }
+
     const testData: NotificationInput = {
       key: uuid(),
       createAt: new Date(),
       title: `${context.grade} 대상 공지`,
       message: `${context.grade}에게 발송되는 공지입니다. 공지내용123 공지공지`,
-      userGrades: [UserGrade.SILVER],
+      userGrades: [context.grade],
       importance: context.importance
     };
 
+    console.log(testData);
+
     const EVENT = "notification";
-    this.props.socket.emit(EVENT, testData);
+    this.props.getSocket().emit(EVENT, testData);
   };
 
   render() {
-    const grades = Object.keys(UserGrade).filter(
-      (k) => typeof UserGrade[k as any] === "string"
-    );
-    const importances = Object.keys(NotificationImportance).filter(
-      (k) => typeof NotificationImportance[k as any] === "string"
-    );
+    const getListOfEnum = (e) =>
+      Object.keys(e).filter((k) => typeof e[k as any] === "string");
+
+    const grades = getListOfEnum(UserGrade);
+    const importances = getListOfEnum(NotificationImportance);
     let buttonList = [];
 
     for (let grade of grades) {

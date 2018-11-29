@@ -16,6 +16,7 @@ import { NoticePane } from "./NoticePane";
 interface Props extends Styled {}
 interface State {
   user: User;
+  isLoaded: boolean;
 }
 class App extends React.Component<Props, State> {
   socket: SocketIOClient.Socket;
@@ -24,6 +25,7 @@ class App extends React.Component<Props, State> {
     super(props);
 
     this.state = {
+      isLoaded: false,
       user: {
         email: "",
         nickname: "",
@@ -32,22 +34,30 @@ class App extends React.Component<Props, State> {
     };
   }
 
-  initConnection = (user: User) => {
+  initConnection = () => {
     const SERVER_PORT = 8080; // nginx
     const NAMESPACE = "notification";
     const URL = `http://localhost:${SERVER_PORT}/${NAMESPACE}`;
     const socket = io(URL);
 
     this.socket = socket;
-    this.initSocket(user);
     this.registerSocketHandler(socket);
+
+    return Promise.resolve();
   };
 
-  initSocket = (user: User) => {
+  joinRoom = (user: User) => {
     const { grade } = user;
     const JOIN_ROOM = "join room";
 
     this.socket.emit(JOIN_ROOM, grade);
+  };
+
+  leaveRoom = (user: User) => {
+    const { grade } = user;
+    const LEAVE_ROOM = "leave room";
+
+    this.socket.emit(LEAVE_ROOM, grade);
   };
 
   registerSocketHandler = (socket: SocketIOClient.Socket) => {
@@ -64,17 +74,22 @@ class App extends React.Component<Props, State> {
   };
 
   onLogin = (user: User) => {
+    if (this.state.isLoaded) {
+      this.leaveRoom(this.state.user);
+      this.joinRoom(user);
+      return;
+    }
     this.setState({ user });
-    this.initConnection(user);
 
-    console.log(user);
+    this.setState({ isLoaded: true });
+    this.initConnection().then(() => this.joinRoom(user));
   };
 
   render() {
     return (
       <div className={this.props.className}>
         <Status user={this.state.user} />
-        <NoticePane socket={this.socket} />
+        <NoticePane getSocket={() => this.socket} />
 
         <InputModalWithButton onSubmit={this.onSubmit} />
         <Login onLogin={this.onLogin} />
