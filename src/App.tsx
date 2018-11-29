@@ -9,18 +9,24 @@ import { Notification, UserGrade, NotificationInput } from "interface";
 import { Register } from "./Register";
 import { Title } from "theme/component";
 import { Login } from "./Login";
+import { User } from "./interface/User";
 
 interface Props extends Styled {}
-class App extends React.Component<Props, any> {
+interface State {
+  user: User;
+}
+class App extends React.Component<Props, State> {
   socket: SocketIOClient.Socket;
 
   constructor(props: Props) {
     super(props);
 
     this.state = {
-      email: "",
-      nickname: "",
-      grade: ""
+      user: {
+        email: "",
+        nickname: "",
+        grade: ""
+      }
     };
   }
 
@@ -69,22 +75,20 @@ class App extends React.Component<Props, any> {
     this.socket.emit("notification", value);
   };
 
+  onLogin = (user: User) => {
+    this.setState({ user });
+    console.log(user);
+  };
+
   render() {
     return (
       <div className={this.props.className}>
-        <div>
-          <Title>현재 연결된 계정 정보</Title>
-          {Object.keys(this.state).map((key) => (
-            <div>
-              {key} : {this.state[key]}
-            </div>
-          ))}
-        </div>
-        <Button type="primary" onClick={() => this.notice()}>
+        
+        <Button type="primary" onClick={this.notice}>
           notice
         </Button>
         <InputModalWithButton onSubmit={this.onSubmit} />
-        <Login />
+        <Login onLogin={this.onLogin} />
         <Register />
       </div>
     );
@@ -93,6 +97,10 @@ class App extends React.Component<Props, any> {
 
 const styledApp = styled(App)`
   margin: 10rem;
+
+  #status {
+    
+  }
 `;
 
 export { styledApp as App };

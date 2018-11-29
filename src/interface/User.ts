@@ -4,3 +4,9 @@ export enum UserGrade {
   GOLD = "GOLD",
   PLATINUM = "PLATINUM"
 }
+
+export interface User {
+  email: string;
+  nickname: string;
+  grade: string;
+}

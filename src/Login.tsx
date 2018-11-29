@@ -1,8 +1,9 @@
 import * as React from "react";
 import { Form, Icon, Input, Button, message, Radio } from "antd";
-import { styled } from "./theme";
+import { styled, Styled } from "./theme";
 import axios from "axios";
 import { Title } from "theme/component";
+import { User } from "./interface/User";
 
 const FormItem = Form.Item;
 
@@ -22,7 +23,10 @@ class Login extends React.Component<any, any> {
         .post(`${SERVER_URL}/login`, {
           email
         })
-        .then(() => message.success("성공", 2))
+        .then((res) => {
+          message.success("성공", 2);
+          this.props.onLogin(res.data);
+        })
         .catch(() => message.error("실패", 2));
     });
   };
@@ -71,6 +75,6 @@ const styledLogin = styled(Login)`
     width: 100%;
   }
 `;
-const WrappedLogin = Form.create()(styledLogin);
+const WrappedLogin: any = Form.create()(styledLogin);
 
 export { WrappedLogin as Login };
