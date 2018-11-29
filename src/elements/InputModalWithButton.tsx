@@ -1,10 +1,9 @@
 import { Button, Modal, Form, Input, Radio } from "antd";
 import * as React from "react";
 import { WrappedFormUtils } from "antd/lib/form/Form";
-import styled, { Styled } from "../theme";
-import { NotificationImportance } from "interface";
-import { CheckboxWithAll } from "./CheckboxWithAll";
-import { NotificationInput } from "src/interface/Notification";
+import styled, { Styled } from "theme";
+import { NotificationImportance, NotificationInput } from "interface";
+import { CheckboxWithAll } from "elements";
 const FormItem = Form.Item;
 
 interface FormProps {

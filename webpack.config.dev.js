@@ -17,13 +17,11 @@ module.exports = {
     alias: {
       src: path.resolve(__dirname, "src/"),
       components: path.resolve(__dirname, "src/components/"),
+      elements: path.resolve(__dirname, "src/elements/"),
       theme: path.resolve(__dirname, "src/theme/"),
-      routers: path.resolve(__dirname, "src/routers/"),
       constants: path.resolve(__dirname, "src/constants/"),
       state: path.resolve(__dirname, "src/state/"),
-      request: path.resolve(__dirname, "src/request/"),
       interface: path.resolve(__dirname, "src/interface/"),
-      utility: path.resolve(__dirname, "src/utility/"),
       helper: path.resolve(__dirname, "src/helper/")
     }
   },

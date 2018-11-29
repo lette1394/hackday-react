@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Title } from "theme/component";
-import styled from "./theme";
+import styled from "theme";
 
 const Status = ({ user, className }) => {
   return (

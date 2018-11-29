@@ -4,4 +4,4 @@ export {
   NotificationImportance,
 } from "./Notification";
 
-export { UserGrade } from "./User";
+export { UserGrade, User } from "./User";

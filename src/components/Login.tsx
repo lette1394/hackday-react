@@ -1,9 +1,8 @@
 import * as React from "react";
-import { Form, Icon, Input, Button, message, Radio } from "antd";
-import { styled, Styled } from "./theme";
+import { Form, Icon, Input, Button, message } from "antd";
+import { styled, Styled } from "theme";
 import axios from "axios";
 import { Title } from "theme/component";
-import { User } from "./interface/User";
 
 const FormItem = Form.Item;
 

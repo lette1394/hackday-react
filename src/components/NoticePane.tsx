@@ -4,9 +4,9 @@ import {
   NotificationInput,
   UserGrade,
   NotificationImportance
-} from "./interface";
-import uuid = require("uuid");
-import { styled, Styled } from "./theme";
+} from "interface";
+import * as uuid from "uuid";
+import { styled, Styled } from "theme";
 
 interface NoticePaneContext {
   grade: UserGrade;

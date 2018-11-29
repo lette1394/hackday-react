@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Form, Icon, Input, Button, message, Radio } from "antd";
-import { styled } from "./theme";
+import { styled } from "theme";
 import axios from "axios";
 import { Title } from "theme/component";
 

@@ -3,18 +3,15 @@ import * as io from "socket.io-client";
 
 import { styled, Styled } from "theme";
 import { notification as noti } from "antd";
-import { InputModalWithButton } from "./elements/InputModalWithButton";
+import { InputModalWithButton } from "elements";
+import * as moment from "moment";
 import {
   Notification,
   NotificationInput,
-  NotificationImportance
+  NotificationImportance,
+  User
 } from "interface";
-import { Register } from "./Register";
-import { Login } from "./Login";
-import { User } from "./interface/User";
-import { Status } from "./Status";
-import { NoticePane } from "./NoticePane";
-import * as moment from "moment";
+import { Register, Login, Status, NoticePane } from "components";
 
 interface Props extends Styled {}
 interface State {
