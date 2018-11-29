@@ -2,6 +2,7 @@ import * as React from "react";
 import { Form, Icon, Input, Button, message, Radio } from "antd";
 import { styled } from "./theme";
 import axios from "axios";
+import { Title } from "theme/component";
 
 const FormItem = Form.Item;
 
@@ -33,9 +34,7 @@ class Register extends React.Component<any, any> {
 
     return (
       <Form onSubmit={this.handleSubmit} className={this.props.className}>
-        <div id="title-container">
-          <span id="title">사용자 추가</span>
-        </div>
+        <Title>사용자 추가</Title>
         <FormItem>
           {getFieldDecorator("email", {
             rules: [{ required: true, message: "이메일 입력해주세요" }]
@@ -91,7 +90,6 @@ class Register extends React.Component<any, any> {
     );
   }
 }
-
 const styledRegister = styled(Register)`
   border: 1px solid #e8e8e8;
   border-radius: 20px;
@@ -105,15 +103,6 @@ const styledRegister = styled(Register)`
 
   .login-form-button {
     width: 100%;
-  }
-
-  #title-container {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  #title {
-    font-family: "BMDoHyeon-OTF";
-    font-size: 30px;
   }
 `;
 const WrappedRegister = Form.create()(styledRegister);

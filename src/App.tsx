@@ -64,12 +64,17 @@ class App extends React.Component<Props> {
   render() {
     return (
       <div className={this.props.className}>
-        현재 연결된 계정 정보 : <br />
+        <div>
+          <span>현재 연결된 계정 정보</span>
+
+          
+
+        </div>
         <Button type="primary" onClick={() => this.notice()}>
           notice
         </Button>
         <InputModalWithButton onSubmit={this.onSubmit} />
-        
+
         <Register />
       </div>
     );
