@@ -19,7 +19,7 @@ const Status = ({ user, className }) => {
 const styledStatus = styled(Status)`
   flex: 0 1 auto;
 
-  max-width: 400px;
+  min-width: 400px;
   border: 1px solid #e8e8e8;
   border-radius: 20px;
 `;

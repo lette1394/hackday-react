@@ -61,14 +61,12 @@ class Login extends React.Component<any, any> {
   }
 }
 const styledLogin = styled(Login)`
+  flex: 0 1 auto;
+
   border: 1px solid #e8e8e8;
   border-radius: 20px;
-  position: absolute;
-  right: 10rem;
-  top: 10rem;
 
-  max-width: 400px;
-  float: right;
+  min-width: 400px;
   padding: 50px !important;
 
   .login-form-button {

@@ -86,6 +86,7 @@ class App extends React.Component<Props, State> {
 
 const styledApp = styled(App)`
   display: flex;
+  flex-wrap: wrap;
 
   margin: 10rem;
 `;

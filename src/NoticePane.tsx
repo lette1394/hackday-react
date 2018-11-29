@@ -49,6 +49,8 @@ class NoticePane extends React.Component<Props, any> {
 
 const styledNoticePane = styled(NoticePane)`
   flex: 0 1 auto;
+
+  min-width: 400px;
 `;
 
 export { styledNoticePane as NoticePane };

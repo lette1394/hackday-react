@@ -91,13 +91,12 @@ class Register extends React.Component<any, any> {
   }
 }
 const styledRegister = styled(Register)`
+  flex: 0 1 auto;
+
   border: 1px solid #e8e8e8;
   border-radius: 20px;
-  position: absolute;
-  right: 10rem;
-  bottom: 10rem;
 
-  max-width: 400px;
+  min-width: 400px;
   float: right;
   padding: 50px !important;
 
