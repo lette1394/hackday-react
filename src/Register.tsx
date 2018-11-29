@@ -33,6 +33,9 @@ class Register extends React.Component<any, any> {
 
     return (
       <Form onSubmit={this.handleSubmit} className={this.props.className}>
+        <div id="title-container">
+          <span id="title">사용자 추가</span>
+        </div>
         <FormItem>
           {getFieldDecorator("email", {
             rules: [{ required: true, message: "이메일 입력해주세요" }]
@@ -48,7 +51,9 @@ class Register extends React.Component<any, any> {
             rules: [{ required: true, message: "닉네임을 입력해주세요" }]
           })(
             <Input
-              prefix={<Icon type="name" style={{ color: "rgba(0,0,0,.25)" }} />}
+              prefix={
+                <Icon type="smile" style={{ color: "rgba(0,0,0,.25)" }} />
+              }
               placeholder="닉네임"
             />
           )}
@@ -68,7 +73,7 @@ class Register extends React.Component<any, any> {
                 GOLD
               </Radio.Button>
               <Radio.Button key={"PLATINUM"} value="PLATINUM">
-                PLATINUM
+                PLAT
               </Radio.Button>
             </Radio.Group>
           )}
@@ -87,14 +92,30 @@ class Register extends React.Component<any, any> {
   }
 }
 
-const WrappedRegister = Form.create()(Register);
-const styledWrappedRegister = styled(WrappedRegister)`
-  max-width: 300px;
+const styledRegister = styled(Register)`
+  border: 1px solid #e8e8e8;
+  border-radius: 20px;
+  position: absolute;
+  right: 10rem;
+  top: 10rem;
+
+  max-width: 400px;
   float: right;
+  padding: 50px !important;
 
   .login-form-button {
     width: 100%;
   }
-`;
 
-export { styledWrappedRegister as Register };
+  #title-container {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  #title {
+    font-family: "BMDoHyeon-OTF";
+    font-size: 30px;
+  }
+`;
+const WrappedRegister = Form.create()(styledRegister);
+
+export { WrappedRegister as Register };
