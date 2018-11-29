@@ -26,14 +26,15 @@ class NoticePane extends React.Component<Props, any> {
       message.error("먼저 로그인 해주세요.");
       return;
     }
+
     const { grade, importance } = context;
     const testData: NotificationInput = {
       key: uuid(),
       createAt: new Date(),
       title: `${grade} 대상 공지`,
       message: `${grade}에게 발송되는 공지입니다.`,
-      userGrades: [grade],
-      importance
+      grade,
+      importance 
     };
 
     const EVENT = "notification";

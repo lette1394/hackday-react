@@ -5,15 +5,15 @@ export interface NotificationInput {
   title: string;
   message: string;
   importance: NotificationImportance;
-  userGrades: UserGrade[];
+  grade: UserGrade;
   createAt: Date;
 }
 
 export interface Notification extends NotificationInput {}
 
 export enum NotificationImportance {
-  LOW = 100,
-  MEDIUM = 200,
-  HIGH = 300,
-  URGENT = 400
+  LOW = "LOW",
+  MEDIUM = "MEDIUM",
+  HIGH = "HIGH",
+  URGENT = "URGENT"
 }
