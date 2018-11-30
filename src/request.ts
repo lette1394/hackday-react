@@ -10,7 +10,7 @@ export const requestNotificationHistory = (user: User) =>
         email: user.email
       }
     })
-    .then(({ data }) => data.reverse());
+    .then(({ data }) => data);
 
 export const requestChanageNotificationStatus = ({ notificationId, read }) =>
   axios.put(`${SERVER_URL}/${NOTIFICATIONS}`, {
