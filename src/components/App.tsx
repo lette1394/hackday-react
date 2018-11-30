@@ -9,7 +9,9 @@ import * as moment from "moment";
 import { Notification, NotificationImportance, User } from "interface";
 import { Register, Login, Status, NoticePane } from "components";
 import { NotiHistory } from "./NotiHistory";
-import { SERVER_URL } from "src/myconstant";
+import { SERVER_URL, SERVER_END_POINT } from "myconstant";
+import { JOIN_ROOM, NOTIFICATION, LEAVE_ROOM } from "src/myconstant/event";
+import { requestNotificationHistory } from "request";
 
 interface Props extends Styled {}
 interface State {
@@ -35,10 +37,7 @@ class App extends React.Component<Props, State> {
   }
 
   initConnection = () => {
-    const SERVER_PORT = 8080; // nginx
-    const NAMESPACE = "notification";
-    const URL = `http://localhost:${SERVER_PORT}/${NAMESPACE}`;
-    const socket = io(URL);
+    const socket = io(SERVER_END_POINT);
 
     this.socket = socket;
     this.registerSocketHandler(socket);
@@ -48,14 +47,12 @@ class App extends React.Component<Props, State> {
 
   joinRoom = (user: User) => {
     const { grade } = user;
-    const JOIN_ROOM = "join room";
 
     this.socket.emit(JOIN_ROOM, grade);
   };
 
   leaveRoom = (user: User) => {
     const { grade } = user;
-    const LEAVE_ROOM = "leave room";
 
     this.socket.emit(LEAVE_ROOM, grade);
   };
@@ -67,9 +64,8 @@ class App extends React.Component<Props, State> {
     typeResolver.set(NotificationImportance.HIGH, "warning");
     typeResolver.set(NotificationImportance.URGENT, "error");
 
-    socket.on("notification", (notification: Notification) => {
+    socket.on(NOTIFICATION, (notification: Notification) => {
       const { id, title, importance, message, createAt, grade } = notification;
-      console.log(notification);
 
       noti.open({
         key: id,
@@ -81,12 +77,11 @@ class App extends React.Component<Props, State> {
       });
 
       this.setState({ history: [notification, ...this.state.history] });
-      console.log(this.state.history);
     });
   };
 
   onSubmit = (value: Notification) => {
-    this.socket.emit("notification", value);
+    this.socket.emit(NOTIFICATION, value);
   };
 
   onLogin = (user: User) => {
@@ -103,22 +98,15 @@ class App extends React.Component<Props, State> {
     this.initConnection().then(() => this.joinRoom(user));
   };
 
-  fetch = (user: User) => {
+  fetch = (user: User): void => {
     if (user.email === "") return;
 
-    axios
-      .get(`${SERVER_URL}/notifications`, {
-        params: {
-          email: user.email
-        }
-      })
-      .then(({ data }) => {
-        this.setState({ history: data.reverse() });
-        console.log(data);
-      });
+    requestNotificationHistory(user).then((history) =>
+      this.setState({ history })
+    );
   };
 
-  dismiss = (id: string) => {
+  dismiss = (id: string): void => {
     const list = this.state.history.filter((val) => val.id !== id);
     this.setState({ history: list });
 

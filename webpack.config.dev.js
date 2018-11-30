@@ -20,9 +20,8 @@ module.exports = {
       elements: path.resolve(__dirname, "src/elements/"),
       theme: path.resolve(__dirname, "src/theme/"),
       myconstant: path.resolve(__dirname, "src/myconstant/"),
-      state: path.resolve(__dirname, "src/state/"),
       interface: path.resolve(__dirname, "src/interface/"),
-      helper: path.resolve(__dirname, "src/helper/")
+      request: path.resolve(__dirname, "src/request"),
     }
   },
   module: {
@@ -30,7 +29,6 @@ module.exports = {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
         loader: "ts-loader",
-
       },
       {
         test: /\.(js|jsx)?$/,
