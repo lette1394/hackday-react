@@ -26,7 +26,7 @@ class NoticePane extends React.Component<Props, any> {
 
     const { grade, importance } = context;
     const testData: Notification = {
-      key: uuid(),
+      id: uuid(),
       createAt: Date.now(),
       title: `${grade} 대상 공지`,
       message: `${grade}에게 발송되는 공지입니다.`,

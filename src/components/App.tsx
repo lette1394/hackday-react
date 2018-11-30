@@ -6,12 +6,7 @@ import { styled, Styled } from "theme";
 import { notification as noti } from "antd";
 import { InputModalWithButton } from "elements";
 import * as moment from "moment";
-import {
-  Notification,
-  NotificationImportance,
-  User,
-  NotificationHistory
-} from "interface";
+import { Notification, NotificationImportance, User } from "interface";
 import { Register, Login, Status, NoticePane } from "components";
 import { NotiHistory } from "./NotiHistory";
 import { SERVER_URL } from "src/myconstant";
@@ -20,7 +15,7 @@ interface Props extends Styled {}
 interface State {
   user: User;
   isLoaded: boolean;
-  history: NotificationHistory[];
+  history: Notification[];
 }
 class App extends React.Component<Props, State> {
   socket: SocketIOClient.Socket;
@@ -73,16 +68,20 @@ class App extends React.Component<Props, State> {
     typeResolver.set(NotificationImportance.URGENT, "error");
 
     socket.on("notification", (notification: Notification) => {
-      const { key, title, importance, message, createAt } = notification;
+      const { id, title, importance, message, createAt, grade } = notification;
+      console.log(notification);
 
       noti.open({
-        key,
+        key: id,
         message: title,
         description: `${message} - ${moment(createAt)
           .locale("ko")
           .fromNow()}`,
         type: typeResolver.get(importance)
       });
+
+      this.setState({ history: [notification, ...this.state.history] });
+      console.log(this.state.history);
     });
   };
 
@@ -119,7 +118,7 @@ class App extends React.Component<Props, State> {
       });
   };
 
-  dismiss = (id: number) => {
+  dismiss = (id: string) => {
     const list = this.state.history.filter((val) => val.id !== id);
     this.setState({ history: list });
 
