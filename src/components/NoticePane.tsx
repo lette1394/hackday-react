@@ -4,6 +4,7 @@ import { UserGrade, NotificationImportance, Notification } from "interface";
 import * as uuid from "uuid";
 import { styled, Styled } from "theme";
 import { Title } from "theme/component";
+import { EVENT_NOTIFICATION } from "src/myconstant/event";
 
 interface NoticePaneContext {
   grade: UserGrade;
@@ -33,10 +34,8 @@ class NoticePane extends React.Component<Props, any> {
       grade,
       importance
     };
-    console.log(testData.createAt);
 
-    const EVENT = "notification";
-    this.props.getSocket().emit(EVENT, testData);
+    this.props.getSocket().emit(EVENT_NOTIFICATION, testData);
   };
 
   getButtonContextList = () => {

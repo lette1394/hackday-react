@@ -1,6 +1,5 @@
 import * as React from "react";
 import * as io from "socket.io-client";
-import axios from "axios";
 
 import { styled, Styled } from "theme";
 import { notification as noti } from "antd";
@@ -9,9 +8,16 @@ import * as moment from "moment";
 import { Notification, NotificationImportance, User } from "interface";
 import { Register, Login, Status, NoticePane } from "components";
 import { NotiHistory } from "./NotiHistory";
-import { SERVER_URL, SERVER_END_POINT } from "myconstant";
-import { JOIN_ROOM, NOTIFICATION, LEAVE_ROOM } from "src/myconstant/event";
-import { requestNotificationHistory } from "request";
+import { SERVER_END_POINT } from "myconstant";
+import {
+  JOIN_ROOM,
+  EVENT_NOTIFICATION,
+  LEAVE_ROOM
+} from "src/myconstant/event";
+import {
+  requestNotificationHistory,
+  requestChanageNotificationStatus
+} from "request";
 
 interface Props extends Styled {}
 interface State {
@@ -64,7 +70,7 @@ class App extends React.Component<Props, State> {
     typeResolver.set(NotificationImportance.HIGH, "warning");
     typeResolver.set(NotificationImportance.URGENT, "error");
 
-    socket.on(NOTIFICATION, (notification: Notification) => {
+    socket.on(EVENT_NOTIFICATION, (notification: Notification) => {
       const { id, title, importance, message, createAt, grade } = notification;
 
       noti.open({
@@ -81,20 +87,19 @@ class App extends React.Component<Props, State> {
   };
 
   onSubmit = (value: Notification) => {
-    this.socket.emit(NOTIFICATION, value);
+    this.socket.emit(EVENT_NOTIFICATION, value);
   };
 
   onLogin = (user: User) => {
     this.fetch(user);
+    this.setState({ user });
 
     if (this.state.isLoaded) {
       this.leaveRoom(this.state.user);
       this.joinRoom(user);
       return;
     }
-    this.setState({ user });
-
-    this.setState({ isLoaded: true });
+    this.setState({ user, isLoaded: true });
     this.initConnection().then(() => this.joinRoom(user));
   };
 
@@ -110,8 +115,8 @@ class App extends React.Component<Props, State> {
     const list = this.state.history.filter((val) => val.id !== id);
     this.setState({ history: list });
 
-    axios.put(`${SERVER_URL}/notifications`, {
-      id,
+    requestChanageNotificationStatus({
+      notificationId: id,
       read: true
     });
   };
